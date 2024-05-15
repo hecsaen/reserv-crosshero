@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es" style="height: auto;">
+
+<head>
+    <meta charset="utf-8">
+    <script
+            type="text/javascript">var _rollbarConfig = { "accessToken": "5194834e01974e729cc7c0d665d21372", "captureUncaught": true, "payload": { "environment": "production", "person": { "id": "63e12e66977fed00347e3080", "username": "hectorsaenznino@gmail.com", "email": "hectorsaenznino@gmail.com" } } };</script>
+    <script
+            type="text/javascript">!function (r) { var e = {}; function o(n) { if (e[n]) return e[n].exports; var t = e[n] = { i: n, l: !1, exports: {} }; return r[n].call(t.exports, t, t.exports, o), t.l = !0, t.exports } o.m = r, o.c = e, o.d = function (r, e, n) { o.o(r, e) || Object.defineProperty(r, e, { enumerable: !0, get: n }) }, o.r = function (r) { "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(r, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(r, "__esModule", { value: !0 }) }, o.t = function (r, e) { if (1 & e && (r = o(r)), 8 & e) return r; if (4 & e && "object" == typeof r && r && r.__esModule) return r; var n = Object.create(null); if (o.r(n), Object.defineProperty(n, "default", { enumerable: !0, value: r }), 2 & e && "string" != typeof r) for (var t in r) o.d(n, t, function (e) { return r[e] }.bind(null, t)); return n }, o.n = function (r) { var e = r && r.__esModule ? function () { return r.default } : function () { return r }; return o.d(e, "a", e), e }, o.o = function (r, e) { return Object.prototype.hasOwnProperty.call(r, e) }, o.p = "", o(o.s = 0) }([function (r, e, o) { "use strict"; var n = o(1), t = o(5); _rollbarConfig = _rollbarConfig || {}, _rollbarConfig.rollbarJsUrl = _rollbarConfig.rollbarJsUrl || "https://cdn.rollbar.com/rollbarjs/refs/tags/v2.19.3/rollbar.min.js", _rollbarConfig.async = void 0 === _rollbarConfig.async || _rollbarConfig.async; var a = n.setupShim(window, _rollbarConfig), l = t(_rollbarConfig); window.rollbar = n.Rollbar, a.loadFull(window, document, !_rollbarConfig.async, _rollbarConfig, l) }, function (r, e, o) { "use strict"; var n = o(2), t = o(3); function a(r) { return function () { try { return r.apply(this, arguments) } catch (r) { try { console.error("[Rollbar]: Internal error", r) } catch (r) { } } } } var l = 0; function i(r, e) { this.options = r, this._rollbarOldOnError = null; var o = l++; this.shimId = function () { return o }, "undefined" != typeof window && window._rollbarShims && (window._rollbarShims[o] = { handler: e, messages: [] }) } var s = o(4), d = function (r, e) { return new i(r, e) }, c = function (r) { return new s(d, r) }; function u(r) { return a((function () { var e = this, o = Array.prototype.slice.call(arguments, 0), n = { shim: e, method: r, args: o, ts: new Date }; window._rollbarShims[this.shimId()].messages.push(n) })) } i.prototype.loadFull = function (r, e, o, n, t) { var l = !1, i = e.createElement("script"), s = e.getElementsByTagName("script")[0], d = s.parentNode; i.crossOrigin = "", i.src = n.rollbarJsUrl, o || (i.async = !0), i.onload = i.onreadystatechange = a((function () { if (!(l || this.readyState && "loaded" !== this.readyState && "complete" !== this.readyState)) { i.onload = i.onreadystatechange = null; try { d.removeChild(i) } catch (r) { } l = !0, function () { var e; if (void 0 === r._rollbarDidLoad) { e = new Error("rollbar.js did not load"); for (var o, n, a, l, i = 0; o = r._rollbarShims[i++];)for (o = o.messages || []; n = o.shift();)for (a = n.args || [], i = 0; i < a.length; ++i)if ("function" == typeof (l = a[i])) { l(e); break } } "function" == typeof t && t(e) }() } })), d.insertBefore(i, s) }, i.prototype.wrap = function (r, e, o) { try { var n; if (n = "function" == typeof e ? e : function () { return e || {} }, "function" != typeof r) return r; if (r._isWrap) return r; if (!r._rollbar_wrapped && (r._rollbar_wrapped = function () { o && "function" == typeof o && o.apply(this, arguments); try { return r.apply(this, arguments) } catch (o) { var e = o; throw e && ("string" == typeof e && (e = new String(e)), e._rollbarContext = n() || {}, e._rollbarContext._wrappedSource = r.toString(), window._rollbarWrappedError = e), e } }, r._rollbar_wrapped._isWrap = !0, r.hasOwnProperty)) for (var t in r) r.hasOwnProperty(t) && (r._rollbar_wrapped[t] = r[t]); return r._rollbar_wrapped } catch (e) { return r } }; for (var p = "log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleAnonymousErrors,handleUnhandledRejection,captureEvent,captureDomContentLoaded,captureLoad".split(","), f = 0; f < p.length; ++f)i.prototype[p[f]] = u(p[f]); r.exports = { setupShim: function (r, e) { if (r) { var o = e.globalAlias || "Rollbar"; if ("object" == typeof r[o]) return r[o]; r._rollbarShims = {}, r._rollbarWrappedError = null; var l = new c(e); return a((function () { e.captureUncaught && (l._rollbarOldOnError = r.onerror, n.captureUncaughtExceptions(r, l, !0), e.wrapGlobalEventHandlers && t(r, l, !0)), e.captureUnhandledRejections && n.captureUnhandledRejections(r, l, !0); var a = e.autoInstrument; return !1 !== e.enabled && (void 0 === a || !0 === a || "object" == typeof a && a.network) && r.addEventListener && (r.addEventListener("load", l.captureLoad.bind(l)), r.addEventListener("DOMContentLoaded", l.captureDomContentLoaded.bind(l))), r[o] = l, l }))() } }, Rollbar: c } }, function (r, e, o) { "use strict"; function n(r, e, o, n) { r._rollbarWrappedError && (n[4] || (n[4] = r._rollbarWrappedError), n[5] || (n[5] = r._rollbarWrappedError._rollbarContext), r._rollbarWrappedError = null); var t = e.handleUncaughtException.apply(e, n); o && o.apply(r, n), "anonymous" === t && (e.anonymousErrorsPending += 1) } r.exports = { captureUncaughtExceptions: function (r, e, o) { if (r) { var t; if ("function" == typeof e._rollbarOldOnError) t = e._rollbarOldOnError; else if (r.onerror) { for (t = r.onerror; t._rollbarOldOnError;)t = t._rollbarOldOnError; e._rollbarOldOnError = t } e.handleAnonymousErrors(); var a = function () { var o = Array.prototype.slice.call(arguments, 0); n(r, e, t, o) }; o && (a._rollbarOldOnError = t), r.onerror = a } }, captureUnhandledRejections: function (r, e, o) { if (r) { "function" == typeof r._rollbarURH && r._rollbarURH.belongsToShim && r.removeEventListener("unhandledrejection", r._rollbarURH); var n = function (r) { var o, n, t; try { o = r.reason } catch (r) { o = void 0 } try { n = r.promise } catch (r) { n = "[unhandledrejection] error getting `promise` from event" } try { t = r.detail, !o && t && (o = t.reason, n = t.promise) } catch (r) { } o || (o = "[unhandledrejection] error getting `reason` from event"), e && e.handleUnhandledRejection && e.handleUnhandledRejection(o, n) }; n.belongsToShim = o, r._rollbarURH = n, r.addEventListener("unhandledrejection", n) } } } }, function (r, e, o) { "use strict"; function n(r, e, o) { if (e.hasOwnProperty && e.hasOwnProperty("addEventListener")) { for (var n = e.addEventListener; n._rollbarOldAdd && n.belongsToShim;)n = n._rollbarOldAdd; var t = function (e, o, t) { n.call(this, e, r.wrap(o), t) }; t._rollbarOldAdd = n, t.belongsToShim = o, e.addEventListener = t; for (var a = e.removeEventListener; a._rollbarOldRemove && a.belongsToShim;)a = a._rollbarOldRemove; var l = function (r, e, o) { a.call(this, r, e && e._rollbar_wrapped || e, o) }; l._rollbarOldRemove = a, l.belongsToShim = o, e.removeEventListener = l } } r.exports = function (r, e, o) { if (r) { var t, a, l = "EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(","); for (t = 0; t < l.length; ++t)r[a = l[t]] && r[a].prototype && n(e, r[a].prototype, o) } } }, function (r, e, o) { "use strict"; function n(r, e) { this.impl = r(e, this), this.options = e, function (r) { for (var e = function (r) { return function () { var e = Array.prototype.slice.call(arguments, 0); if (this.impl[r]) return this.impl[r].apply(this.impl, e) } }, o = "log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleAnonymousErrors,handleUnhandledRejection,_createItem,wrap,loadFull,shimId,captureEvent,captureDomContentLoaded,captureLoad".split(","), n = 0; n < o.length; n++)r[o[n]] = e(o[n]) }(n.prototype) } n.prototype._swapAndProcessMessages = function (r, e) { var o, n, t; for (this.impl = r(this.options); o = e.shift();)n = o.method, t = o.args, this[n] && "function" == typeof this[n] && ("captureDomContentLoaded" === n || "captureLoad" === n ? this[n].apply(this, [t[0], o.ts]) : this[n].apply(this, t)); return this }, r.exports = n }, function (r, e, o) { "use strict"; r.exports = function (r) { return function (e) { if (!e && !window._rollbarInitialized) { for (var o, n, t = (r = r || {}).globalAlias || "Rollbar", a = window.rollbar, l = function (r) { return new a(r) }, i = 0; o = window._rollbarShims[i++];)n || (n = o.handler), o.handler._swapAndProcessMessages(l, o.messages); window[t] = n, window._rollbarInitialized = !0 } } } }]);</script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alcuadrado</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link href="/assets/icons/icon-640x1136-a438c40880d6fa92ca6615e11dca6e0bac4d810d6257eceef7bbaaee2b84b6f9.png"
+          media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
+    <link href="/assets/icons/icon-750x1334-4691187f87cdb8abd1adcec18f11daeb131ea6e1acf9dd9e245f89663a0783b4.png"
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
+    <link href="/splashscreens/iphoneplus_splash.png"
+          media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+          rel="apple-touch-startup-image">
+    <link href="/splashscreens/iphonex_splash.png"
+          media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+          rel="apple-touch-startup-image">
+    <link href="/assets/icons/icon-1536x2048-c6fae3a8098fc016e506d6fdd4ae729a7b3e007bd6c5099ca2ef249adad0c5d9.png"
+          media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
+    <link href="/splashscreens/ipadpro1_splash.png"
+          media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
+    <link href="/splashscreens/ipadpro2_splash.png"
+          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/android-chrome-36x36.png" sizes="36x36">
+    <link rel="icon" type="image/png" href="/android-chrome-48x48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="/android-chrome-72x72.png" sizes="72x72">
+    <link rel="icon" type="image/png" href="/android-chrome-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/android-chrome-144x144.png" sizes="144x144">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c30016">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="CrossHero">
+    <meta name="application-name" content="CrossHero">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#C30016">
+    <link rel="stylesheet" media="all"
+          href="/assets/admin-38a0874ab45c2b908adf28c7b24b3c42cedc74b359c1083fcb756d03cd159e54.css">
+    <script>    var I18nConfig = {
+      defaultLocale: "es",
+      locale: "es",
+      currencyLocale: "es"
+    }
+    </script>
+    <script src="/assets/admin-06607b0f2596b07729cf00adadb37a1a98b397dba13d1de267487be9bd6526e9.js"></script>
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+          from {
+            opacity: 0.99
+          }
+
+          to {
+            opacity: 1
+          }
+        }
+
+        @keyframes chartjs-render-animation {
+          from {
+            opacity: 0.99
+          }
+
+          to {
+            opacity: 1
+          }
+        }
+
+        .chartjs-render-monitor {
+          -webkit-animation: chartjs-render-animation 0.001s;
+          animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token"
+          content="wlMF87NnT++WcMVxHjp8Jaq4BRj5G0YDfHoNtiF3e67OjWNhgM7gQsGARE4+5OsxrOIQARj5NRKSu+wT/jd+Mg==">
+    <!--[if lt IE 9]>  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <script>    function sendDeviceToken(device, token) {
+      if (!token) {
+        // When iOS or Android fails, they may call this function with an empty token
+        // No need to send a request if the token is empty
+        // That would cause an unnecessary request. /save_device_token should not be on of the most requested URLs in CloudFlare.
+        //
+        return false
+      }
+
+
+
+      const tokens = ['eNowEyGNSdi2e4t_tN1Dkz:APA91bEhWTChUZxSvuRtkTho59_fMgamfkkxmh3L9rvzwZqw-KfvMPr8JcDxMOlfvdU69w0lJ4oToUYhzEsP83EyRDE_rV1XO8hjjY-BsFUMuW_M_hLsjFuXMcHPgQcCyy3m7pmVv23S'];
+
+      // https://rollbar.com/crosshero/crosshero/items/751/
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes#Polyfill
+      // includes does not work in all browsers
+      if (tokens.indexOf(token) !== -1) {
+        // token already added
+        return true
+      }
+
+      const jqxhr = $.post("/save_device_token", { device: device, token: token })
+
+      // https://rollbar.com/crosshero/crosshero/items/749/
+      // jqxhr.fail((jqXHR, textStatus, error) => console.error(textStatus, error))
+
+      return true
+    }
+
+    function sendPushNotification(title, body, action) {
+      const jqxhr = $.post("/send_push_notification", { title: title, body: body, data_action: action })
+      // https://rollbar.com/crosshero/crosshero/items/749/
+      // jqxhr.error(function(jqXHR, textStatus) {
+      //   console.log({ jqXHR, textStatus })
+      // });
+      return true
+    }
+    </script>
+</head>
+
+<body class="skin-red sidebar-mini" data-route="recurring_classes#index" style="height: auto;">
+<div id="loader-container" style="display: none;">
+    <div id="loader-spinner"></div>
+</div>
+<div class="wrapper" style="height: auto;">
+    <header class="main-header">
+        <div id="main-header-top-wrapper" class="flex bg-transparent relative ch-fl-l"> <button id="main-back-button"
+                                                                                                type="button"
+                                                                                                class="bg-transparent outline-0 white f2 bn absolute top-1 bottom-0 left-0 right-0 dn-l flex pt1 pb1 hide"> <i
+                class="fa fa-fw fa-arrow-circle-o-left"></i> </button> <a href="/dashboard" class="logo"> <span
+                class="logo-lg">Alcuadrado</span> </a> </div>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div id="navbar-box-name"
+                 class="white absolute top-0 bottom-0 w-100 tc items-center justify-center f2 fw3 pen o-0 flex">Alcuadrado
+            </div> <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle
+            navigation</span> </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown notifications-menu"> <a href="/dashboard/announcements" title="Avisos"> <span
+                            class="fa fa-fw fa-flag-o"></span> <span class="label label-primary pull-right">6</span> </a> </li>
+                    <li class="dropdown notifications-menu"> <a href="/dashboard/contacts/new" title="Contacta tu centro"> <span
+                            class="fa fa-fw fa-bullhorn"></span> </a> </li>
+                    <li> <a href="https://support.crosshero.com" target="_blank" title="Ayuda"> <span
+                            class="fa fa-fw fa-question-circle"></span> </a> </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <div class="user-panel" style="overflow: visible;">
+                <div class="pull-left image dropdown dropdown-toggle"> <img alt="Héctor "
+                                                                            class="logo-or-initials w-100 h-100 img-circle dropdown-toggle image-preview-63e12e66977fed00347e3080 "
+                                                                            data-toggle="dropdown"
+                                                                            src="https://s3.amazonaws.com/crossheroprod-mainbucket25325f05-18xf2qahlrxi1/members/63e12e66977fed00347e3080/avatar/avatars/thumb.jpg?1678181353">
+                    <ul class="dropdown-menu">
+                        <li> <a class="btn btn-default btn-flat" href="/dashboard/admin/athletes/63e12e66977fed00347e3080/edit">Mi
+                            Perfil</a> </li>
+                        <li> <a class="btn btn-default btn-flat" skip_confirm="true" rel="nofollow" data-method="delete"
+                                href="/athletes/sign_out">Salir</a> </li>
+                    </ul>
+                </div>
+                <div class="pull-left info">
+                    <p>Héctor </p> <a href="/dashboard/admin/athletes/63e12e66977fed00347e3080/edit">Mi Perfil</a>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="header">Menu Principal</li>
+                <li> <a href="/dashboard"> <i class="fa fa-bar-chart"></i> <span>Dashboard</span> </a> </li>
+                <li> <a href="/dashboard/classes"> <i class="fa fa-edit"></i> <span>Clases</span> </a> </li>
+                <li class="active"><a href="/dashboard/recurring_classes"><i class="fa fa-clock-o"></i>
+                    <span>Horarios</span></a></li>
+                <li> <a href="/dashboard/reservations"> <i class="fa fa-pencil-square-o"></i> <span>Mis Reservas</span> </a>
+                </li>
+                <li class="treeview "> <a href="#"> <i class="fa fa-line-chart"></i> <span>Mis Resultados</span> <i
+                        class="fa fa-angle-left pull-right"></i> </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/dashboard/scores?component_type=benchmark_metcon"><i class="fa fa-circle-o"></i>
+                            <span>Benchmark Metcon</span></a></li>
+                        <li><a href="/dashboard/scores?component_type=gymnastics"><i class="fa fa-circle-o"></i>
+                            <span>Gymnastics</span></a></li>
+                        <li><a href="/dashboard/scores?component_type=weightlifting"><i class="fa fa-circle-o"></i>
+                            <span>Weightlifting</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="/dashboard/whiteboards"><i class="fa fa-television"></i> <span>Whiteboard</span></a></li>
+                <li> <a href="https://timer.crosshero.com/"> <i class="fa fa-hourglass-o"></i> <span>Timer</span> </a> </li>
+                <li><a href="/dashboard/benefits"><i class="fa fa-th"></i> <span>Ventajas y Ofertas</span></a></li>
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper" style="min-height: 619px;">
+        <section class="content" style="min-height: 1940px;">
+            <main class="recurring-classes">
+                <header class="flex relative mb5 mb6-m">
+                    <div class="w-50 nowrap">
+                        <h1 class="ma0">Mayo 2024</h1>
+                    </div>
+                    <div class="flex justify-end absolute top-0 right-0 left-0 static-l mt5 mt0-l w-50-l"> <select
+                            name="program_id" id="program_id" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                        <option value="">Todos programas</option>
+                        <option value="63810837c3c85e00313126e4">FIT BIKE</option>
+                        <option value="63810abdb73e19003813a1e6">FIT+55</option>
+                        <option value="63ff631e16d2f200336a2f59">HALTERO</option>
+                        <option value="6564d43c4f483d0033fa53f8">I go u go</option>
+                        <option value="6465a6d86d5b930032bc2809">PULSE</option>
+                        <option value="63810b1cc3c85e0031312c06">STRENGHT</option>
+                        <option value="63810aa7b73e19003113a220">WOD</option>
+                        <option value="64f9f55289d2610035a30fe9">WODZILLA</option>
+                    </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                   style="width: 139px;"><span class="selection"><span class="select2-selection select2-selection--single"
+                                                                                       role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                                                                       aria-labelledby="select2-program_id-container"><span class="select2-selection__rendered"
+                                                                                                                                            id="select2-program_id-container" title="Todos programas">Todos programas</span><span
+                            class="select2-selection__arrow" role="presentation"><b
+                            role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                               aria-hidden="true"></span></span> </div>
+                    <div class="w-50 box-tools relative tr">
+                        <div class="dropdown"> <a href="https://crosshero.com/dashboard/recurring_classes?date=06%2F05%2F2024"
+                                                  class="btn btn-default " target="_self"> <i class="fa fa-arrow-left"></i> </a> <a
+                                href="https://crosshero.com/dashboard/recurring_classes" class="btn btn-default" target="_self"> Hoy
+                        </a> <a href="https://crosshero.com/dashboard/recurring_classes?date=20%2F05%2F2024"
+                                class="btn btn-default" target="_self"> <i class="fa fa-arrow-right"></i> </a> </div>
+                    </div>
+                </header>
+                <div class="recurring-classes-table-container table-responsive no-padding">
+                    <table class="table  dataTable fixed1stCol">
+                        <thead>
+                        <tr>
+                            <th width="9%"> </th>
+                            <th width="13%" class="">Lun 13</th>
+                            <th width="13%" class="">Mar 14</th>
+                            <th width="13%" class="">Mié 15</th>
+                            <th width="13%" class="bg-yellow">Jue 16</th>
+                            <th width="13%" class="">Vie 17</th>
+                            <th width="13%" class="">Sáb 18</th>
+                            <th width="13%" class="">Dom 19</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">07:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34640">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 83%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 18
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3464a">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465f">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 86%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 13 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34669">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 16 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">08:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463f">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 56%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 9 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3464f">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 68%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 11 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465e">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 25%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 4 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466d">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 75%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">09:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34641">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463b">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 46%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 7 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34650">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3464c">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 53%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 8 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34660">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 68%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 11 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465a">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 40%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 6 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466e">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466b">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 73%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 11 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34676">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 20 de 20
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">10:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463a">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #FFA62D !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT+55
+                          </span>
+                                        <div class="recurring-class-coach flex items-center"> <i class="fa fa-user mr1 f5"></i>
+                                            <span>ALCUADRADO</span>
+                                        </div>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 75%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 9 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3464b">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #FFA62D !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT+55
+                          </span>
+                                        <div class="recurring-class-coach flex items-center"> <i class="fa fa-user mr1 f5"></i>
+                                            <span>ALCUADRADO</span>
+                                        </div>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 83%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 10 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34659">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #FFA62D !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT+55
+                          </span>
+                                        <div class="recurring-class-coach flex items-center"> <i class="fa fa-user mr1 f5"></i>
+                                            <span>ALCUADRADO</span>
+                                        </div>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 75%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 9 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466a">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #FFA62D !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT+55
+                          </span>
+                                        <div class="recurring-class-coach flex items-center"> <i class="fa fa-user mr1 f5"></i>
+                                            <span>ALCUADRADO</span>
+                                        </div>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 58%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 7 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34674">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 20 de 20
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">11:00</td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> </td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34675">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #39BFDB !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WODZILLA
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 33%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 10 de 30
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34677">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 20%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 6 de 30
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">14:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34644">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 66%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 10 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34663">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">15:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463e">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 66%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 10 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34654">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 86%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 13 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465d">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34670">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">17:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34642">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 87%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34643">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34651">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 81%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 13 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34652">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34661">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 62%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 10 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34662">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466f">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 106%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 17 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34673">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">18:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34649">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #9E662F !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> HALTERO
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 58%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 7 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34645">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3464d">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 87%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34655">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 40%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 6 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34668">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #9E662F !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> HALTERO
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 16%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 2 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34664">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34671">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">19:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463c">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 16 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34647">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 53%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 8 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3464e">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 81%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 13 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34656">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465b">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 87%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34666">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F91F2A !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> WOD
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 80%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 12 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd3466c">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 16 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">20:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd3463d">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34648">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F581C7 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> STRENGHT
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 73%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 11 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34658">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #9E662F !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> HALTERO
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 41%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 5 de 12
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34653">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd3465c">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 16 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> <a target="_top" href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34667">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F581C7 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> STRENGHT
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 53%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 8 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34672">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #F581C7 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> STRENGHT
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 46%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 7 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        <tr>
+                            <td class="recurring-classes-table-hour" style="width: 1018px;">21:00</td>
+                            <td style=""> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411beed0ad2002fd34646">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 93%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 14 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> <a target="_top"
+                                             href="https://crosshero.com/dashboard/classes?id=661411bfed0ad2002fd34657">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #6DE4A1 !important; color: #000000">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> FIT BIKE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 68%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 11 de 16
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style="background-color: rgba(183,183,183,.1);"> <a target="_top"
+                                                                                    href="https://crosshero.com/dashboard/classes?id=661411c0ed0ad2002fd34665">
+                                <div class="info-box"
+                                     style="min-height: 3em; background-color: #004084 !important; color: #FFFFFF">
+                                    <div class="info-box-content" style="margin-left: 0"> <span class="info-box-text mr6"> PULSE
+                          </span>
+                                        <div class="flex flex-row flex-wrap">
+                                            <div class="progress w-100-ns">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <div> <span class="progress-description"> 15 de 15
+                              </span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                            <td style=""> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </section>
+    </div>
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs"> </div> <strong>Copyright © 2024 CrossHero</strong> <strong>&nbsp;&nbsp; <a
+            href="/privacy-policy">Política de Privacidad</a></strong> <strong>&nbsp;&nbsp; <a
+            href="/cookie-policy">Política de Cookies</a></strong> <strong>&nbsp;&nbsp; <a href="/terms">Condiciones de
+        Uso</a></strong>
+        <div class="footer-app"> Instala <strong>GRATIS</strong> nuestra app en <a
+                href="https://itunes.apple.com/us/app/crosshero/id1098030926" target="_blank"><span
+                class="fa fa-fw fa-apple"></span>iOS</a> y <a
+                href="https://play.google.com/store/apps/details?id=com.crosshero.android" target="_blank"><span
+                class="fa fa-fw fa-android"></span>Android</a>.
+        </div>
+    </footer>
+    <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
+</div>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon="{&quot;token&quot;: &quot;2db03dd4575945f293905dd3ba21d3c0&quot;}"></script>
+<script>  </script>
+</body>
+
+</html>
