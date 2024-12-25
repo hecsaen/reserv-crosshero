@@ -15,6 +15,5 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
-
     Optional<Reservation> findByClientAndWorkout(Client client, Workout workout);
 }

@@ -16,11 +16,8 @@ import me.reserv.crosshero.entity.Workout;
 import me.reserv.crosshero.repository.ClientRepository;
 import me.reserv.crosshero.repository.ReservationRepository;
 import me.reserv.crosshero.repository.SubscriptionRepository;
-import me.reserv.crosshero.repository.WorkoutRepository;
 import me.reserv.crosshero.scraping.ExtractorUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.jdbc.Work;
-import org.springframework.data.domain.Example;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +39,7 @@ public class BrowserService {
     private final SubscriptionRepository subscriptionRepository;
     private final ReservBot reservBot;
 
-//    @Scheduled(fixedDelay = 1_000 * 60 * 60)
-    @Scheduled(fixedDelay = 1000 * 60)
+    @Scheduled(fixedDelay = 1000 * 10 )//* 60)
     public void getClasses() {
         final List<Client> clients = clientRepository.findByActiveTrueOrderByPriorityAsc();
 
@@ -70,6 +66,9 @@ public class BrowserService {
         final List<Workout> workouts = workoutService.findAllWorkoutsBetween(now, now.plusDays(5));
 
         for (var client : clients) {
+            if (StringUtils.isBlank(client.getSessionCookie())) {
+                reservBot.sendMessage(client.getTelegramId(), "Please, include your session cookie.");
+            }
             final List<Subscription> subscriptions = subscriptionRepository.findByClient(client);
             // TODO improve performance
             final List<Workout> filteredWorkouts = workouts.stream()
@@ -97,6 +96,11 @@ public class BrowserService {
                                 workout.getTime().toString()
                         ));
                     } catch (Exception e) {
+                        reservBot.sendMessage(client.getTelegramId(), String.format("Error reserving '%s' on '%s' at '%s'.",
+                                workout.getName(),
+                                workout.getDate().toString(),
+                                workout.getTime().toString()
+                        ));
                         log.error("Error reserving class.", e);
                     }
                 }
@@ -105,45 +109,47 @@ public class BrowserService {
     }
 
     public void reserveClass(Client client, Workout workout) {
-
         // classes-sign-in
         try (Playwright playwright = Playwright.create()) {
-            BrowserContext browserContext = getBrowserContext(playwright, client);
+            try (Browser browser = playwright.webkit().launch()) {
+                try (BrowserContext browserContext = browser.newContext()) {
+                    setBrowserContextCookies(browserContext, client);
 
-            Page page = browserContext.newPage();
-            page.navigate(workout.getLink());
+                    Page page = browserContext.newPage();
+                    page.navigate(workout.getLink());
 
-            page.locator("#classes-sign-in").click();
+                    page.locator("#classes-sign-in").click();
+                }
+            }
         }
     }
 
     private List<Workout> getClasses(Client client, LocalDate date) {
         try (Playwright playwright = Playwright.create()) {
-            BrowserContext browserContext = getBrowserContext(playwright, client);
+            try (Browser browser = playwright.webkit().launch()) {
+                try (BrowserContext browserContext = browser.newContext()) {
+                    setBrowserContextCookies(browserContext, client);
 
-            Page page = browserContext.newPage();
-            page.navigate("https://crosshero.com/dashboard/recurring_classes?date=" +
-                    date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    Page page = browserContext.newPage();
+                    page.navigate("https://crosshero.com/dashboard/recurring_classes?date=" +
+                            date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-            List<Workout> workouts = ExtractorUtils.getWorkouts(page);
+                    List<Workout> workouts = ExtractorUtils.getWorkouts(page);
 
-            // Get next week (not always necessary, rf.)
-            page.navigate("https://crosshero.com/dashboard/recurring_classes?date=" +
-                    date.plusWeeks(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            workouts.addAll(ExtractorUtils.getWorkouts(page));
+                    // Get next week (not always necessary, rf.)
+                    page.navigate("https://crosshero.com/dashboard/recurring_classes?date=" +
+                            date.plusWeeks(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    workouts.addAll(ExtractorUtils.getWorkouts(page));
 
-            // DEBUG
-            // page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("example.png")));
-            browserContext.clearCookies();
-            browserContext.close();
-            return workouts;
+                    // DEBUG
+                    // page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("example.png")));
+                    return workouts;
+                }
+            }
         }
     }
 
-    private static BrowserContext getBrowserContext(Playwright playwright, Client client) {
-        Browser browser = playwright.webkit().launch();
-        BrowserContext browserContext = browser.newContext();
-
+    private static void setBrowserContextCookies(BrowserContext browserContext, Client client) {
         Cookie authCookie = new Cookie("_crosshero_session", client.getSessionCookie());
         authCookie.setDomain("crosshero.com");
         authCookie.setPath("/");
@@ -153,6 +159,5 @@ public class BrowserService {
         acceptedCookies.setPath("/");
 
         browserContext.addCookies(List.of(authCookie, acceptedCookies));
-        return browserContext;
     }
 }

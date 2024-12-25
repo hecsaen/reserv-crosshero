@@ -52,10 +52,7 @@ public class ExtractorUtils {
                         int dayOfMonth = weekDays.get(i);
                         int adjustedMonth = month;
                         if (weekDays.getFirst() > dayOfMonth) {
-                            adjustedMonth = month + 1;
-                            if (month > 12) {
-                                adjustedMonth = 1;
-                            }
+                            adjustedMonth = month % 12 + 1;
                         }
 
                         final String name = clas.locator(".info-box-text").innerText();
