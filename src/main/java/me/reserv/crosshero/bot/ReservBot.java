@@ -36,7 +36,9 @@ public class ReservBot implements SpringLongPollingBot, LongPollingSingleThreadU
     private final ClientRepository clientRepository;
     private final SubscriptionRepository subscriptionRepository;
 
-    public ReservBot(@Value("${BOT_TOKEN}") String botToken, ClientRepository clientRepository, SubscriptionRepository subscriptionRepository) {
+    public ReservBot(@Value("${BOT_TOKEN}") String botToken,
+                     ClientRepository clientRepository,
+                     SubscriptionRepository subscriptionRepository) {
         this.botToken = botToken;
         this.clientRepository = clientRepository;
         this.subscriptionRepository = subscriptionRepository;
@@ -73,10 +75,6 @@ public class ReservBot implements SpringLongPollingBot, LongPollingSingleThreadU
         if (client.isEmpty()) {
             log.info("New client with telegramId '{}'.", telegramId);
             Client newClient = Client.builder().telegramId(telegramId).build();
-//            if ("hecsaen".equals(update.getMessage().getFrom().getUserName())) {
-//                newClient.setActive(true);
-//                newClient.setPriority(1);
-//            }
             if (clientRepository.count() < 10) {
                 newClient.setActive(true);
                 newClient.setPriority(Long.valueOf(clientRepository.count()).intValue() + 100);
@@ -112,7 +110,7 @@ public class ReservBot implements SpringLongPollingBot, LongPollingSingleThreadU
     }
 
     private void getSubscriptions(Client client) {
-        final List<Subscription> subscriptions = subscriptionRepository.findByClient(client);
+        final List<Subscription> subscriptions = subscriptionRepository.findByClientOrderByDayOfWeekAscTimeAsc(client);
         String message;
         if (CollectionUtils.isEmpty(subscriptions)) {
             message = "No subscriptions yet.";
@@ -209,6 +207,7 @@ public class ReservBot implements SpringLongPollingBot, LongPollingSingleThreadU
         try {
             telegramClient.execute(SendMessage.builder().chatId(telegramId).text(text).build());
         } catch (TelegramApiException e) {
+            // TODO: send to queue?
             throw new RuntimeException(e);
         }
     }

@@ -22,9 +22,11 @@ public interface WorkoutRepository extends JpaRepository<Workout, String> {
                                     LocalDate dateFrom,
                                     LocalDate dateTo);
 
-    @Query(value = "SELECT * FROM workout w WHERE date + time BETWEEN ?1 AND ?2 " +
-            "ORDER BY date asc, time asc",
+    @Query(value = "SELECT * FROM workout w WHERE date + time BETWEEN ?1 AND ?2 ORDER BY date asc, time asc",
             nativeQuery = true)
     List<Workout> findAllWorkoutsBetween(Timestamp dateTimeFrom,
                                          Timestamp dateTimeTo);
+
+    @Query("SELECT w FROM Workout w WHERE w.link IN :links")
+    List<Workout> findByLinkIn(@Param("links") List<String> links);
 }
